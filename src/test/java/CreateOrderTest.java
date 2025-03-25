@@ -51,14 +51,6 @@ public class CreateOrderTest {
         driver = new ChromeDriver(options);
     }
 
-    @Test
-    public void checkExpandedText() throws Exception {
-        MainPage mainPage = new MainPage(driver);
-        mainPage.open()
-                .closeCookiePopUpWindow();
-        Assert.assertTrue(mainPage.checkExpandedText());
-    }
-
     @Parameterized.Parameters
     public static Object[][] enterFields() {
         return new Object[][] {

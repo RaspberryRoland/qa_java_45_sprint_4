@@ -35,20 +35,6 @@ public class MainPage {
     //Кнопка для закрытия PopUp окна с информацией про куки
     private final By acceptCookieButton = By.xpath("//button[contains(@class,'App_CookieButton')]");
 
-    //Ожидаемый скрытый текст
-    private final List<String> expectedValues = Arrays.asList(
-        "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
-        "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, " +
-                "можете просто сделать несколько заказов — один за другим.",
-        "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. " +
-                "Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. " +
-                "Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.",
-        "Только начиная с завтрашнего дня. Но скоро станем расторопнее.",
-        "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.",
-        "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без " +
-                "передышек и во сне. Зарядка не понадобится.",
-        "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
-        "Да, обязательно. Всем самокатов! И Москве, и Московской области.");
     private final WebDriver driver;
 
     public MainPage(WebDriver driver) {
@@ -83,16 +69,15 @@ public class MainPage {
      * Проверка совпадения ожидаемого и фактического текста, который скрыт в раскрывающемся заголовке
      * @throws Exception
      */
-    public boolean checkExpandedText() throws Exception {
-        for (int i = 0; i < driver.findElements(accordHeaders).size(); i++) {
-            clickToExpandTextBySequenceNumber(i);
-            if (!expectedValues.get(i).equals(driver.findElement(By.xpath(partOfAccordionPanelXpath + i + "']"))
+    public boolean checkExpandedText(int number, String expectedTextValue) throws Exception {
+        clickToExpandTextBySequenceNumber(number);
+            if (!expectedTextValue.equals(driver.findElement(
+                    By.xpath(partOfAccordionPanelXpath + number + "']"))
                     .getText())) {
                 throw new Exception(String.format("Фактический текст '%s' отличается от ожидаемого '%s'",
-                        driver.findElement(By.xpath(partOfAccordionPanelXpath + i + "']")).getText(),
-                        expectedValues.get(i)));
+                        driver.findElement(By.xpath(partOfAccordionPanelXpath + number + "']")).getText(),
+                        expectedTextValue));
             }
-        }
         return true;
     }
 
